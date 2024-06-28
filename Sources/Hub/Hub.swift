@@ -189,9 +189,19 @@ public class LanguageModelConfigurationFromHub {
         hubApi: HubApi = .shared
     ) async throws -> Configurations {
         // Note tokenizerConfig may be nil (does not exist in all models)
-        let modelConfig = try hubApi.configuration(fileURL: modelFolder.appending(path: "config.json"))
-        let tokenizerConfig = try? hubApi.configuration(fileURL: modelFolder.appending(path: "tokenizer_config.json"))
-        let tokenizerVocab = try hubApi.configuration(fileURL: modelFolder.appending(path: "tokenizer.json"))
+        let modelConfig: Config
+        let tokenizerConfig: Config?
+        let tokenizerVocab: Config
+    
+        if #available(macOS 13.0, *) {
+            modelConfig = try hubApi.configuration(fileURL: modelFolder.appending(path: "config.json"))
+            tokenizerConfig = try? hubApi.configuration(fileURL: modelFolder.appending(path: "tokenizer_config.json"))
+            tokenizerVocab = try hubApi.configuration(fileURL: modelFolder.appending(path: "tokenizer.json"))
+        } else {
+            modelConfig = try hubApi.configuration(fileURL: modelFolder.appendingPathComponent("config.json"))
+            tokenizerConfig = try? hubApi.configuration(fileURL: modelFolder.appendingPathComponent("tokenizer_config.json"))
+            tokenizerVocab = try hubApi.configuration(fileURL: modelFolder.appendingPathComponent("tokenizer.json"))
+        }
         
         let configs = Configurations(
             modelConfig: modelConfig,
