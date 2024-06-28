@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "swift-transformers",
-    platforms: [.iOS(.v16), .macOS(.v13)],
+    platforms: [.iOS(.v16), .macOS(.v12)],
     products: [
         .library(name: "Transformers", targets: ["Tokenizers", "Generation", "Models"]),
         .executable(name: "transformers", targets: ["TransformersCLI"]),
