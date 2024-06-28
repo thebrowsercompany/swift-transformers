@@ -39,15 +39,26 @@ public extension MLMultiArray {
     var floats: [Float]? {
         guard self.dataType == .float32 else { return nil }
         
-        var result: [Float] = Array(repeating: 0, count: self.count)
-        return self.withUnsafeBytes { ptr in
-            guard let source = ptr.baseAddress else { return nil }
-            result.withUnsafeMutableBytes { resultPtr in
-                let dest = resultPtr.baseAddress!
-                memcpy(dest, source, self.count * MemoryLayout<Float>.stride)
+        var result = [Float](repeating: 0, count: self.count)
+        
+        if #available(macOS 12.3, *) {
+            return self.withUnsafeBytes { ptr in
+                guard let source = ptr.baseAddress else { return nil }
+                result.withUnsafeMutableBytes { resultPtr in
+                    let dest = resultPtr.baseAddress!
+                    memcpy(dest, source, self.count * MemoryLayout<Float>.stride)
+                }
+                return result
             }
+        } else {
+            let bytes = self.dataPointer
+            let floatBytes = bytes.bindMemory(to: Float.self, capacity: self.count)
+            
+            for i in 0..<self.count {
+                result[i] = floatBytes[i]
+            }
+            
             return result
         }
-
     }
 }
