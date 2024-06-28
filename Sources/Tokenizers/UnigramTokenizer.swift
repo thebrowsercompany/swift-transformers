@@ -9,7 +9,22 @@
 import Foundation
 import Hub
 
+// New non-generic protocol
+public protocol AnyPreTrainedTokenizerModel {
+    // Add any non-generic methods or properties here that are common to all tokenizer models
+}
+
+// Existing PreTrainedTokenizerModel protocol, now inheriting from AnyPreTrainedTokenizerModel
+public protocol PreTrainedTokenizerModel: AnyPreTrainedTokenizerModel {
+    // Existing PreTrainedTokenizerModel definition remains here
+}
+
+// Use conditional compilation to handle different macOS versions
+#if compiler(>=5.7) && canImport(Darwin)
 class UnigramTokenizer: PreTrainedTokenizerModel {
+#else
+class UnigramTokenizer: AnyPreTrainedTokenizerModel {
+#endif
     struct SentencePieceToken {
         var token: String
         var score: Float
