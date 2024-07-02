@@ -52,7 +52,7 @@ struct NormalizerFactory {
         case .NFKD : return NFKDNormalizer(config: config)
         case .NFKC : return NFKCNormalizer(config: config)
         case .Bert : return BertNormalizer(config: config)
-        case .BertNormalizer: return BertNormalizer(config: con)
+        case .BertNormalizer: return BertNormalizer(config: config)
         case .Precompiled : return PrecompiledNormalizer(config: config)
         case .StripAccents : return StripAccentsNormalizer(config: config)
         default       : fatalError("Unsupported Normalizer type: \(typeName)")
