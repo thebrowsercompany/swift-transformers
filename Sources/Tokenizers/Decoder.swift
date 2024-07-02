@@ -47,7 +47,7 @@ struct DecoderFactory {
         case .Fuse        : return FuseDecoder(config: config)
         case .Strip       : return StripDecoder(config: config)
         case .Metaspace   : return MetaspaceDecoder(config: config)
-        case .WordPiece   : return DecoderSequence(config: config)
+        case .WordPiece   : return FuseDecoder(config: config)
         default           : fatalError("Unsupported Decoder type: \(typeName)")
         }
     }
