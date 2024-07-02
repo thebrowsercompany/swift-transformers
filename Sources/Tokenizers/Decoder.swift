@@ -23,7 +23,7 @@ extension Decoder {
 
 enum DecoderType: String {
     case Sequence
-//    case WordPiece
+    case WordPiece
     case ByteLevel
     case Replace
     case ByteFallback
@@ -47,6 +47,7 @@ struct DecoderFactory {
         case .Fuse        : return FuseDecoder(config: config)
         case .Strip       : return StripDecoder(config: config)
         case .Metaspace   : return MetaspaceDecoder(config: config)
+        case .WordPiece   : return DecoderSequence(config: config)
         default           : fatalError("Unsupported Decoder type: \(typeName)")
         }
     }
