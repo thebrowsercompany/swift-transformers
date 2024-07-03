@@ -75,7 +75,7 @@ public extension LanguageModel {
            !description.isEmpty {
             return description
         }
-        return model.configuration.modelDisplayName ?? ""
+        return "Unknown model"
     }
     
     /// `name_or_path` in the Python world
@@ -84,9 +84,7 @@ public extension LanguageModel {
            let name = userFields["co.huggingface.exporters.name"] {
             return name
         }
-        // This is usually the basename of the file, that's our best bet if no metadata exists
-        guard let modelName = model.configuration.modelDisplayName else { fatalError("Models must have a name that identifies them") }
-        return modelName
+        return "Unknown model"
     }
         
     var inputIdsDescription: MLFeatureDescription {

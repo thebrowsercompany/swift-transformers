@@ -36,7 +36,11 @@ public extension Trie {
     func append(contentsOf container: any Sequence<any Sequence<T>>) {
         for t in container { insert(t) }
     }
-        
+
+    func append(contentsOf container: [String], mapToSeq: (String) -> any Sequence<T>) {
+        for t in container { insert(mapToSeq(t)) }
+    }
+
     /// Find all leaf nodes that share a common prefix with the input sequence (usually a text)
     /// Returns an array
     func commonPrefixSearch(_ text: any Sequence<T>) -> [[T]] {
